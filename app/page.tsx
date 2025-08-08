@@ -269,7 +269,7 @@ export default function Component() {
                 <Card className="border border-gray-200 dark:border-gray-700 custom-shadow transition-all hover:custom-shadow-lg hover:scale-[1.02]">
                   <CardHeader>
                     <Image
-                      src="/images/sammy_salon.png?height=200&width=300"
+                      src="/images/sammy_salon.jpeg?height=200&width=300"
                       width="300"
                       height="200"
                       alt="Project 1"
@@ -295,7 +295,7 @@ export default function Component() {
                 <Card className="border border-gray-200 dark:border-gray-700 custom-shadow transition-all hover:custom-shadow-lg hover:scale-[1.02]">
                   <CardHeader>
                     <Image
-                      src="/images/salon_appt.png?height=200&width=300"
+                      src="/images/salon_appt.jpeg?height=200&width=300"
                       width="300"
                       height="200"
                       alt="Project 2"
@@ -321,7 +321,7 @@ export default function Component() {
                 <Card className="border border-gray-200 dark:border-gray-700 custom-shadow transition-all hover:custom-shadow-lg hover:scale-[1.02]">
                   <CardHeader>
                     <Image
-                      src="/images/til.png?height=200&width=300"
+                      src="/images/til.jpeg?height=200&width=300"
                       width="300"
                       height="200"
                       alt="Project 3"
