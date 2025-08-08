@@ -13,15 +13,12 @@ const supabase = createClient(
   URL!,
   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
 )
-console.log("&&&&&&&&& here", supabase);
 
 // Admin client (bypasses RLS)
 const supabaseAdmin = createClient(
   URL!,
   process.env.NEXT_PUBLIC_SUPABASE_SERVICE_ROLE_SECRET! // This bypasses RLS
 )
-
-console.log("&&&&&&&&& Theere", supabaseAdmin);
 
 
 interface AddTilEntryResult {
@@ -40,11 +37,7 @@ export async function addTilEntry(
   formData: FormData
 ): Promise<AddTilEntryResult> {
   const adminKey = formData.get("adminKey") as string
-    console.log("###### INSERT admin Key ACTIONS", adminKey);
-
   if (!verifyAdminKey(adminKey)) {
-        console.log(" &&&&& INSERT admin Key ACTIONS", adminKey);
-
     return { success: false, error: "Unauthorized" }
   }
 
@@ -79,9 +72,7 @@ export async function updateTilEntry(
   prevState: AddTilEntryResult | null,
   formData: FormData
 ): Promise<AddTilEntryResult> {
-  const adminKey = formData.get("adminKey") as string
-  console.log("###### UPDATE admin Key ACTIONS", adminKey);
-  
+  const adminKey = formData.get("adminKey") as string  
   if (!verifyAdminKey(adminKey)) {
     return { success: false, error: "Unauthorized" }
   }
