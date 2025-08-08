@@ -2,5 +2,6 @@
 cache/
 node_modules/
 .git/
-*.log
 .env.local
+*.log
+.DS_Store
