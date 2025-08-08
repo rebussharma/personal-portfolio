@@ -1,0 +1,80 @@
+{
+    "Backend & Database" : [
+        {
+            "name": "Spring-Boot",
+            "src": "/images/backend/spring-boot.svg",
+            "alt": "https://img.icons8.com/?size=100&id=90519&format=png&color=000000"
+        },
+        {
+            "name": "Java/Kotlin",
+            "src": "/images/backend/java.svg",
+            "alt": "https://img.icons8.com/?size=100&id=13679&format=png&color=000000"
+        },
+        {
+            "name": "Node.js",
+            "src": "/images/backend/node.svg",
+            "alt": "https://img.icons8.com/?size=100&id=54087&format=png&color=000000"
+        },
+        {
+            "name": "PostgreSQL",
+            "src": "/images/backend/postgresql.svg",
+            "alt": "https://img.icons8.com/?size=100&id=38561&format=png&color=000000"
+        },
+        {
+            "name": "MS SQL Server",
+            "src": "/images/backend/sql-server.svg",
+            "alt": "https://img.icons8.com/?size=100&id=laYYF3dV0Iew&format=png&color=000000"
+        },
+        {
+            "name": "MongoDB",
+            "src": "/images/backend/mongodb.svg",
+            "alt": "https://img.icons8.com/?size=100&id=cREyrHivHRHF&format=png&color=000000"
+        }
+    ],
+    "Frontend": [
+        {
+            "name": "ReactJs",
+            "src": "/images/frontend/reactjs.svg",
+            "alt": "https://img.icons8.com/?size=100&id=25Sjy8fKExYA&format=png&color=000000"
+        },
+        {
+            "name": "Next.js",
+            "src": "/images/frontend/nextjs.svg",
+            "alt": "https://img.icons8.com/?size=100&id=r2OarXWQc7B6&format=png&color=228BE6"
+        },
+        {
+            "name": "TypeScript",
+            "src": "/images/frontend/typescript.svg",
+            "alt": "https://img.icons8.com/?size=100&id=cHBUT9SmrD2V&format=png&color=000000"
+        },
+        {
+            "name": "Tailwind CSS",
+            "src": "/images/frontend/tailwindcss.svg",
+            "alt": "https://img.icons8.com/?size=100&id=CIAZz2CYc6Kc&format=png&color=000000"
+        }
+
+    ],
+    "DevOps and Misc": [
+        {
+            "name": "Docker",
+            "src": "/images/misc/docker.svg",
+            "alt": "https://img.icons8.com/?size=100&id=TkG10j-DmXkU&format=png&color=000000"
+        },
+        {
+            "name": "Git",
+            "src": "/images/misc/git.svg",
+            "alt": "https://img.icons8.com/?size=100&id=38389&format=png&color=000000"
+        },
+        {
+            "name": "K8s",
+            "src": "/images/misc/kubernetes.svg",
+            "alt": "https://img.icons8.com/?size=100&id=1hFR28gNL9Hy&format=png&color=000000"
+        }
+        ,
+        {
+            "name": "Terraform",
+            "src": "/images/misc/terraform.svg",
+            "alt": "https://img.icons8.com/?size=100&id=kEkT1u7zTDk5&format=png&color=000000"
+        }
+    ]
+}
