@@ -26,20 +26,30 @@ const EmailSender = forwardRef<EmailSenderRef, ClientDetails>((details, ref) => 
   const email = details.clientDetails[1]
   const subject = details.clientDetails[2]
   const message = details.clientDetails[3]
+  const [emailServiceId, setEmailServiceId] = useState("")
+  const [emailTemplateId, setEmailTemplateId] = useState("")
   
   if(!email){
     console.log("Client Email is Empty");
   }
   
-  const SERVICE_ID: any = process.env.EMAIL_SERVICE_ID
-  const EMAIL_TRMPLATE_ID: any = process.env.EMAIL_TRMPLATE_ID
   const PUBLIC_KEY:any = process.env.NEXT_PUBLIC_EMAIL_PUBLIC_KEY
-  useEffect(() => emailjs.init({publicKey:process.env.PUBLIC_KEY}), []);  
+  useEffect(() => {
+      fetch("/api/get-secret")
+      .then(res => res.json())
+      .then((data) => {
+        setEmailServiceId(data.EMAIL_SERVICE_ID)
+        setEmailTemplateId(data.EMAIL_TRMPLATE_ID)
+      }
+      )
+      .catch(err => console.error("Error fetching secret:", err));
+    emailjs.init({publicKey:process.env.PUBLIC_KEY})
+  }, []);  
 
  // send email to self
   const sendEmail =()=>{
     emailjs
-    .send( SERVICE_ID, EMAIL_TRMPLATE_ID, {
+    .send( emailServiceId, emailTemplateId, {
       name: !name ? "Name not provided" : name, 
       customer_email:email,
       title: subject,

@@ -58,6 +58,8 @@ export default function TilPage() {
   const [editTags, setEditTags] = useState("")
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false)
   const [entryToDelete, setEntryToDelete] = useState<string | null>(null)
+  const [adminSecretKey, setAdminSecretKey] = useState("");
+
   
   const initialState: AddTilEntryResult | null = null
 
@@ -66,16 +68,17 @@ export default function TilPage() {
     addTilEntry,
     null
   )
-  const SECRET_KEY = process.env.ADMIN_SECRET_KEY
   
-  // Check for admin access via URL parameter
   useEffect(() => {
+    fetch("/api/get-secret")
+      .then(res => res.json())
+      .then(data => setAdminSecretKey(data.ADMIN_SECRET_KEY))
+      .catch(err => console.error("Error fetching secret:", err));
     const urlParams = new URLSearchParams(window.location.search)
     const adminKey = urlParams.get('admin')
-    console.log("adminKey", adminKey);
     
     // Replace 'your-secret-key' with your actual secret
-    if (adminKey === SECRET_KEY) {
+    if (adminKey === adminSecretKey) {
       localStorage.setItem('til-admin', 'true')
       localStorage.setItem('til-admin-key', adminKey) // Store the actual key
 
@@ -87,9 +90,9 @@ export default function TilPage() {
     //else if (localStorage.getItem('til-admin') === 'true') {v// for later when prod is live
     //   setUser({ isAdmin: true })
     // } // 
-  }, [])
+  }, [adminSecretKey])
 
-    console.log("admin: ", user?.isAdmin, SECRET_KEY)
+    console.log("admin: ", user?.isAdmin, adminSecretKey)
 
   // Fetch initial data when the component mounts
   useEffect(() => {
