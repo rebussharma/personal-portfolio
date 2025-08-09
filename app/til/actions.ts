@@ -17,7 +17,7 @@ const supabase = createClient(
 // Admin client (bypasses RLS)
 const supabaseAdmin = createClient(
   URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_SERVICE_ROLE_SECRET! // This bypasses RLS
+  process.env.SUPABASE_SERVICE_ROLE_SECRET! // This bypasses RLS
 )
 
 
@@ -29,7 +29,7 @@ interface AddTilEntryResult {
 
 // Verify admin key
 function verifyAdminKey(adminKey: string): boolean {
-  return adminKey === process.env.NEXT_PUBLIC_ADMIN_SECRET_KEY
+  return adminKey === process.env.ADMIN_SECRET_KEY
 }
 
 export async function addTilEntry(

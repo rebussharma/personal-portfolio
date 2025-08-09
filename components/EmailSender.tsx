@@ -31,8 +31,8 @@ const EmailSender = forwardRef<EmailSenderRef, ClientDetails>((details, ref) => 
     console.log("Client Email is Empty");
   }
   
-  const SERVICE_ID: any = process.env.NEXT_PUBLIC_EMAIL_SERVICE_ID
-  const EMAIL_TRMPLATE_ID: any = process.env.NEXT_PUBLIC_EMAIL_TRMPLATE_ID
+  const SERVICE_ID: any = process.env.EMAIL_SERVICE_ID
+  const EMAIL_TRMPLATE_ID: any = process.env.EMAIL_TRMPLATE_ID
   const PUBLIC_KEY:any = process.env.NEXT_PUBLIC_EMAIL_PUBLIC_KEY
   useEffect(() => emailjs.init({publicKey:process.env.PUBLIC_KEY}), []);  
 

@@ -66,7 +66,7 @@ export default function TilPage() {
     addTilEntry,
     null
   )
-  const SECRET_KEY = process.env.NEXT_PUBLIC_ADMIN_SECRET_KEY
+  const SECRET_KEY = process.env.ADMIN_SECRET_KEY
   
   // Check for admin access via URL parameter
   useEffect(() => {
