@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "build": "rm -rf .next/cache && next build && rm -rf .next/cache",
+    "build": "rm -rf .next/cache && next build && npx @cloudflare/next-on-pages",
     "build:clean": "rm -rf .next && npm run build",
     "build:cf": "rm -rf .next/cache && next build && @cloudflare/next-on-pages",
     "dev": "next dev",
@@ -11,6 +11,7 @@
     "start": "next start"
   },
   "dependencies": {
+    "@cloudflare/next-on-pages": "^1.13.13",
     "@emailjs/browser": "^4.4.1",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",

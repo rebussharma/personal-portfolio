@@ -1,7 +1,5 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: 'export',  // Add this line for static export
-  trailingSlash: true,  // Add this for better compatibility
   experimental: {
     optimizePackageImports: ['lucide-react']
   },
@@ -12,7 +10,7 @@ const nextConfig = {
     }
     return config
   },
-  // Disable source maps in production (reduces file size)
+  // Disable source maps in production to reduce the file size
   productionBrowserSourceMaps: false,
   eslint: {
     ignoreDuringBuilds: true,

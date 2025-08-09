@@ -3,11 +3,11 @@
 import { Moon, Sun } from "lucide-react"
 import { useTheme } from "next-themes"
 import { cn } from "@/lib/utils"
-import { useState, useEffect } from "react" // Import useState and useEffect
+import { useState, useEffect } from "react"
 
 export function SlideModeToggle() {
   const { theme, setTheme } = useTheme()
-  const [mounted, setMounted] = useState(false) // State to track if component is mounted on client
+  const [mounted, setMounted] = useState(false) 
 
   // useEffect runs only on the client after hydration
   useEffect(() => {
