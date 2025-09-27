@@ -33,7 +33,7 @@ interface TilEntry {
   content: string
   tags: string[]
   date: string
-  updatedDate: string
+  updatedDate: string | null
 }
 
 type AddTilEntryResult = {
@@ -151,7 +151,12 @@ export default function TilPage() {
               year: "numeric",
               month: "long",
               day: "numeric",
-            })
+            }),
+            updatedDate: entry.updated_at ? new Date(entry.updated_at).toLocaleDateString("en-US", {
+              year: "numeric", 
+              month: "long",
+              day: "numeric",
+            }): null,
           }))
           setTilEntries(formattedUpdatedEntries)
         } catch (error) {
@@ -214,11 +219,11 @@ export default function TilPage() {
             month: "long",
             day: "numeric",
           }),
-          updatedDate: new Date(entry.updated_at).toLocaleDateString("en-US", {
-            year: "numeric", 
-            month: "long",
-            day: "numeric",
-          }),
+            updatedDate: entry.updated_at ? new Date(entry.updated_at).toLocaleDateString("en-US", {
+              year: "numeric", 
+              month: "long",
+              day: "numeric",
+            }): null,
         }))
         setTilEntries(formattedUpdatedEntries)
         console.log('UI updated with new entries')
@@ -284,11 +289,11 @@ export default function TilPage() {
             month: "long",
             day: "numeric",
           }),
-          updatedDate: new Date(entry.updated_at).toLocaleDateString("en-US", {
-            year: "numeric", 
-            month: "long",
-            day: "numeric",
-          }),
+            updatedDate: entry.updated_at ? new Date(entry.updated_at).toLocaleDateString("en-US", {
+              year: "numeric", 
+              month: "long",
+              day: "numeric",
+            }): null,
         }))
         setTilEntries(formattedUpdatedEntries)
         cancelEditing()
@@ -318,11 +323,11 @@ export default function TilPage() {
             month: "long",
             day: "numeric",
           }),
-          updatedDate: new Date(entry.updated_at).toLocaleDateString("en-US", {
-            year: "numeric", 
-            month: "long",
-            day: "numeric",
-          })
+            updatedDate: entry.updated_at ? new Date(entry.updated_at).toLocaleDateString("en-US", {
+              year: "numeric", 
+              month: "long",
+              day: "numeric",
+            }): null,
         }))
         setTilEntries(formattedUpdatedEntries)
       }
