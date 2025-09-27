@@ -41,6 +41,7 @@ export async function addTilEntry(
   const subject = formData.get("subject") as string
   const content = formData.get("content") as string
   const tagsString = formData.get("tags") as string
+  const updatedDate = new Date().toISOString().split("T")[0]
 
   if ((!content || content.trim() === "") || (!subject || subject.trim() === "")) {
     return { success: false, error: "Content cannot be empty." }
@@ -133,7 +134,7 @@ export async function getTilEntries() {
   const { data, error } = await supabase
     .from("til_entries")
     .select("*")
-    .order("created_at", { ascending: false })
+    .order("updated_at", { ascending: false })
 
   if (error) {
     console.error("Error fetching TIL entries:", error)

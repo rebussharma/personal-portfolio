@@ -33,6 +33,7 @@ interface TilEntry {
   content: string
   tags: string[]
   date: string
+  updatedDate: string
 }
 
 type AddTilEntryResult = {
@@ -92,7 +93,7 @@ export default function TilPage() {
     // } // 
   }, [adminSecretKey])
 
-    console.log("admin: ", user?.isAdmin, adminSecretKey)
+    console.log("admin: ", user?.isAdmin)
 
   // Fetch initial data when the component mounts
   useEffect(() => {
@@ -107,6 +108,11 @@ export default function TilPage() {
             month: "long",
             day: "numeric",
           }),
+          updatedDate: entry.updated_at ? new Date(entry.updated_at).toLocaleDateString("en-US", {
+            year: "numeric", 
+            month: "long",
+            day: "numeric",
+          }): null,
         }))
         setTilEntries(formattedEntries)
       } catch (error) {
@@ -145,7 +151,7 @@ export default function TilPage() {
               year: "numeric",
               month: "long",
               day: "numeric",
-            }),
+            })
           }))
           setTilEntries(formattedUpdatedEntries)
         } catch (error) {
@@ -205,6 +211,11 @@ export default function TilPage() {
           ...entry,
           date: new Date(entry.created_at).toLocaleDateString("en-US", {
             year: "numeric",
+            month: "long",
+            day: "numeric",
+          }),
+          updatedDate: new Date(entry.updated_at).toLocaleDateString("en-US", {
+            year: "numeric", 
             month: "long",
             day: "numeric",
           }),
@@ -273,6 +284,11 @@ export default function TilPage() {
             month: "long",
             day: "numeric",
           }),
+          updatedDate: new Date(entry.updated_at).toLocaleDateString("en-US", {
+            year: "numeric", 
+            month: "long",
+            day: "numeric",
+          }),
         }))
         setTilEntries(formattedUpdatedEntries)
         cancelEditing()
@@ -302,6 +318,11 @@ export default function TilPage() {
             month: "long",
             day: "numeric",
           }),
+          updatedDate: new Date(entry.updated_at).toLocaleDateString("en-US", {
+            year: "numeric", 
+            month: "long",
+            day: "numeric",
+          })
         }))
         setTilEntries(formattedUpdatedEntries)
       }
@@ -517,7 +538,12 @@ export default function TilPage() {
                   <Card key={entry.id} className="p-4 border border-gray-200 dark:border-gray-700 custom-shadow">
                     <CardContent className="p-0">
                       <div className="flex items-start justify-between mb-2">
-                        <p className="text-sm text-gray-500 dark:text-gray-400">{entry.date}</p>
+                        <p className="text-sm text-gray-500 dark:text-gray-400">
+                          Created: {entry.date}
+                          {entry.updatedDate && (
+                            <> &nbsp; &nbsp; Updated: {entry.updatedDate}</>
+                          )}
+                        </p>                        
                         <div className="flex items-center gap-2">
                           {user?.isAdmin && (
                             <>
