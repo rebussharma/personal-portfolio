@@ -1,3 +1,3 @@
 export default function Loading() {
-  return null
-}
+  return <div className="loading">Loading TIL Entries</div>;
+};
