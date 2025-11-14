@@ -92,7 +92,7 @@ export default function Component() {
               <span className="sr-only sm:not-sr-only">GitHub</span> {/* Show text on larger screens */}
             </Link>
             <Link
-              href="https://linkedin.com/in/ribash-sharma"
+              href="https://linkedin.com/in/rebus-sharma"
               className="text-sm font-medium hover:underline underline-offset-4 flex items-center gap-1 text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-primary transition-colors"
               prefetch={false}
               target="_blank"
@@ -457,7 +457,7 @@ export default function Component() {
             <Github className="h-4 w-4" /> GitHub
           </Link>
           <Link
-            href="https://linkedin.com/in/ribash-sharma"
+            href="https://linkedin.com/in/rebus-sharma"
             className="text-xs hover:underline underline-offset-4 flex items-center gap-1 text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-primary transition-colors"
             prefetch={false}
             target="_blank"
