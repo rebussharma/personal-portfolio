@@ -423,7 +423,7 @@ export default function TilPage() {
           </Link>
           <div className="flex items-center gap-4">
             <Link
-              href="https://github.com/your-github"
+              href="https://github.com/rebussharma"
               className="text-sm font-medium hover:underline underline-offset-4 flex items-center gap-1 text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-primary transition-colors"
               prefetch={false}
               target="_blank"
@@ -433,7 +433,7 @@ export default function TilPage() {
               <span className="sr-only sm:not-sr-only">GitHub</span>
             </Link>
             <Link
-              href="https://linkedin.com/in/your-linkedin"
+              href="https://linkedin.com/in/rebus-sharma"
               className="text-sm font-medium hover:underline underline-offset-4 flex items-center gap-1 text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-primary transition-colors"
               prefetch={false}
               target="_blank"
