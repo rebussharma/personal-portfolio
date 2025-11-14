@@ -787,7 +787,7 @@ export default function TilPage() {
             <Github className="h-4 w-4" /> GitHub
           </Link>
           <Link
-            href="https://linkedin.com/in/ribash-sharma"
+            href="https://linkedin.com/in/rebus-sharma"
             className="text-xs hover:underline underline-offset-4 flex items-center gap-1 text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-primary transition-colors"
             prefetch={false}
             target="_blank"
