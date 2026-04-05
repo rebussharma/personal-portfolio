@@ -91,7 +91,7 @@ const EmailSender = forwardRef<EmailSenderRef, ClientDetails>((details, ref) => 
                   details.emailResetter('')
                   details.messageResetter('')
                   setShowAlert(false)
-                }, 1000);
+                }, 2000);
                 }
               }   
             >
