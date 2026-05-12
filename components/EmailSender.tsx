@@ -46,7 +46,7 @@ const EmailSender = forwardRef<EmailSenderRef, ClientDetails>((details, ref) => 
     emailjs.init({publicKey:process.env.PUBLIC_KEY})
   }, []);  
 
- // send email to self
+ // send email to client
   const sendEmail =()=>{
     emailjs
     .send( emailServiceId, emailTemplateId, {
@@ -91,7 +91,7 @@ const EmailSender = forwardRef<EmailSenderRef, ClientDetails>((details, ref) => 
                   details.emailResetter('')
                   details.messageResetter('')
                   setShowAlert(false)
-                }, 1000);
+                }, 1500);
                 }
               }   
             >

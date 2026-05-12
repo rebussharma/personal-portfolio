@@ -25,6 +25,7 @@ export default function Component() {
   const [email, setEmail] = useState("")
   const [subject, setSubject] = useState("")
   const [message, setMessage] = useState("")
+  const [open, setOpen] = useState(false)
   const emailSenderRef = useRef<EmailSenderRef>(null);
   // State for validation
   const [isEmailValid, setIsEmailValid] = useState(false)
@@ -139,6 +140,29 @@ export default function Component() {
             >
               Contact
             </button>
+          <div className="relative inline-block">
+
+            <button
+                onClick={() => setOpen(!open)}
+                className="text-sm font-medium hover:underline underline-offset-4 text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-primary transition-colors"
+              >
+                Public
+            </button>
+
+            {open && (
+              <div className="absolute mt-2 w-40 rounded-md border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 shadow-lg z-50">
+                <a
+                  href="/docs/carfax"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-800"
+                >
+                  Carfax
+                </a>
+
+              </div>
+            )}
+            </div>
           </nav>
         </div>
       </header>
@@ -429,7 +453,7 @@ export default function Component() {
                     </div>
                     <Button
                       type="submit"
-                      className="w-full bg-primary text-primary-foreground hover:bg-primary/90 mt-6"
+                      className="w-full bg-primary text-primary-foreground hover:bg-primary/90 mt-6 active:scale-105"
                       disabled={!canSubmit}
                     >
                       Send Message
@@ -469,7 +493,7 @@ export default function Component() {
             variant="outline"
             size="icon"
             onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-            className="h-10 w-10 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
+            className="h-10 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
             aria-label="Go to top"
           >
             <ArrowUp className="h-4 w-4" />
