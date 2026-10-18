@@ -4,7 +4,7 @@ const nextConfig = {
     optimizePackageImports: ['lucide-react']
   },
   // Disable webpack cache in production
-  webpack: (config, { isServer, dev }) => {
+  webpack: (config, { dev }) => {
     if (!dev) {
       config.cache = false
     }
@@ -12,11 +12,10 @@ const nextConfig = {
   },
   // Disable source maps in production to reduce the file size
   productionBrowserSourceMaps: false,
-  eslint: {
-    ignoreDuringBuilds: true,
-  },
-  typescript: {
-    ignoreBuildErrors: true,
+  // EmailJS service/template IDs are public identifiers; inline them into the client bundle at build time
+  env: {
+    EMAIL_SERVICE_ID: process.env.EMAIL_SERVICE_ID ?? '',
+    EMAIL_TEMPLATE_ID: process.env.EMAIL_TEMPLATE_ID ?? process.env.EMAIL_TRMPLATE_ID ?? '',
   },
   images: {
     unoptimized: true,

@@ -6,15 +6,16 @@ import { cn } from "@/lib/utils"
 import { useState, useEffect } from "react"
 
 export function SlideModeToggle() {
-  const { theme, setTheme } = useTheme()
-  const [mounted, setMounted] = useState(false) 
+  const { resolvedTheme, setTheme } = useTheme()
+  const [mounted, setMounted] = useState(false)
 
   // useEffect runs only on the client after hydration
   useEffect(() => {
     setMounted(true)
   }, [])
 
-  const isDarkMode = theme === "dark"
+  // resolvedTheme reflects the actual theme in use, including when the user follows the system setting
+  const isDarkMode = resolvedTheme === "dark"
 
   const toggleTheme = () => {
     setTheme(isDarkMode ? "light" : "dark")
@@ -42,12 +43,13 @@ export function SlideModeToggle() {
         "relative flex h-8 w-16 cursor-pointer items-center rounded-full p-1 transition-colors duration-300",
         isDarkMode ? "bg-primary" : "bg-gray-200", // Track background color, use primary for dark
       )}
-      aria-label="Toggle theme"
+      aria-label={isDarkMode ? "Switch to light mode" : "Switch to dark mode"}
     >
       {/* Sun icon - visible in light mode, slides left */}
       <Sun
+        aria-hidden="true"
         className={cn(
-          "absolute h-6 w-6 rounded-full p-1 transition-all duration-300",
+          "absolute h-6 w-6 rounded-full p-1 motion-safe:transition-all motion-safe:duration-300",
           isDarkMode
             ? "translate-x-8 opacity-0 text-gray-50" // In dark mode, move right and hide
             : "translate-x-0 opacity-100 bg-accent text-accent-foreground", // In light mode, stay left, visible, use accent background
@@ -55,8 +57,9 @@ export function SlideModeToggle() {
       />
       {/* Moon icon - visible in dark mode, slides right */}
       <Moon
+        aria-hidden="true"
         className={cn(
-          "absolute h-6 w-6 rounded-full p-1 transition-all duration-300",
+          "absolute h-6 w-6 rounded-full p-1 motion-safe:transition-all motion-safe:duration-300",
           isDarkMode
             ? "translate-x-8 opacity-100 bg-accent text-accent-foreground" // In dark mode, move right, visible, use accent background
             : "translate-x-0 opacity-0 text-gray-700", // In light mode, stay left and hide

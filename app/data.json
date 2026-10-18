@@ -1,80 +1,52 @@
 {
     "Backend & Database" : [
-        {
-            "name": "Spring-Boot",
-            "src": "/images/backend/spring-boot.svg",
-            "alt": "https://img.icons8.com/?size=100&id=90519&format=png&color=000000"
-        },
-        {
-            "name": "Java/Kotlin",
-            "src": "/images/backend/java.svg",
-            "alt": "https://img.icons8.com/?size=100&id=13679&format=png&color=000000"
-        },
-        {
-            "name": "Node.js",
-            "src": "/images/backend/node.svg",
-            "alt": "https://img.icons8.com/?size=100&id=54087&format=png&color=000000"
-        },
-        {
-            "name": "PostgreSQL",
-            "src": "/images/backend/postgresql.svg",
-            "alt": "https://img.icons8.com/?size=100&id=38561&format=png&color=000000"
-        },
-        {
-            "name": "MS SQL Server",
-            "src": "/images/backend/sql-server.svg",
-            "alt": "https://img.icons8.com/?size=100&id=laYYF3dV0Iew&format=png&color=000000"
-        },
-        {
-            "name": "MongoDB",
-            "src": "/images/backend/mongodb.svg",
-            "alt": "https://img.icons8.com/?size=100&id=cREyrHivHRHF&format=png&color=000000"
-        }
+        { "name": "Spring-Boot", "src": "/images/backend/spring-boot.svg" },
+        { "name": "Java/Kotlin", "src": "/images/backend/java.svg" },
+        { "name": "Node.js", "src": "/images/backend/node.svg" },
+        { "name": "PostgreSQL", "src": "/images/backend/postgresql.svg" },
+        { "name": "MS SQL Server", "src": "/images/backend/sql-server.svg" },
+        { "name": "MongoDB", "src": "/images/backend/mongodb.svg" }
     ],
     "Frontend": [
-        {
-            "name": "ReactJs",
-            "src": "/images/frontend/reactjs.svg",
-            "alt": "https://img.icons8.com/?size=100&id=25Sjy8fKExYA&format=png&color=000000"
-        },
-        {
-            "name": "Next.js",
-            "src": "/images/frontend/nextjs.svg",
-            "alt": "https://img.icons8.com/?size=100&id=r2OarXWQc7B6&format=png&color=228BE6"
-        },
-        {
-            "name": "TypeScript",
-            "src": "/images/frontend/typescript.svg",
-            "alt": "https://img.icons8.com/?size=100&id=cHBUT9SmrD2V&format=png&color=000000"
-        },
-        {
-            "name": "Tailwind CSS",
-            "src": "/images/frontend/tailwindcss.svg",
-            "alt": "https://img.icons8.com/?size=100&id=CIAZz2CYc6Kc&format=png&color=000000"
-        }
-
+        { "name": "ReactJs", "src": "/images/frontend/reactjs.svg" },
+        { "name": "Next.js", "src": "/images/frontend/nextjs.svg" },
+        { "name": "TypeScript", "src": "/images/frontend/typescript.svg" },
+        { "name": "Tailwind CSS", "src": "/images/frontend/tailwindcss.svg" }
     ],
     "DevOps and Misc": [
+        { "name": "Docker", "src": "/images/misc/docker.svg" },
+        { "name": "Git", "src": "/images/misc/git.svg" },
+        { "name": "K8s", "src": "/images/misc/kubernetes.svg" },
+        { "name": "Terraform", "src": "/images/misc/terraform.svg" }
+    ],
+    "Experience": [],
+    "Projects": [
         {
-            "name": "Docker",
-            "src": "/images/misc/docker.svg",
-            "alt": "https://img.icons8.com/?size=100&id=TkG10j-DmXkU&format=png&color=000000"
+            "title": "Beauty Salon Landing Page",
+            "description": "A landing page for a beauty salon with integrated reviews and an email system, built with React and powered by EmailJS.",
+            "image": "/images/projects/salon-landing.webp",
+            "imageAlt": "Sammy's Brow Bar & Spa landing page hero",
+            "tags": ["React", "EmailJS"],
+            "liveUrl": "https://sammysbrow.com",
+            "repoUrl": ""
         },
         {
-            "name": "Git",
-            "src": "/images/misc/git.svg",
-            "alt": "https://img.icons8.com/?size=100&id=38389&format=png&color=000000"
+            "title": "Appointment Booking App",
+            "description": "A full-stack application for booking beauty salon service appointments. Built with React on the frontend, Spring Boot on the backend and PostgreSQL for the database.",
+            "image": "/images/projects/booking-app.webp",
+            "imageAlt": "Booking flow with service selection, artist picker and booking summary",
+            "tags": ["React", "Spring Boot", "PostgreSQL"],
+            "liveUrl": "https://book.sammysbrow.com",
+            "repoUrl": ""
         },
         {
-            "name": "K8s",
-            "src": "/images/misc/kubernetes.svg",
-            "alt": "https://img.icons8.com/?size=100&id=1hFR28gNL9Hy&format=png&color=000000"
-        }
-        ,
-        {
-            "name": "Terraform",
-            "src": "/images/misc/terraform.svg",
-            "alt": "https://img.icons8.com/?size=100&id=kEkT1u7zTDk5&format=png&color=000000"
+            "title": "Today I Learned Blog",
+            "description": "A small blog on this site where I write about things I learn along the way, with search and tag filtering.",
+            "image": "",
+            "imageAlt": "",
+            "tags": ["Next.js", "Supabase", "Server Actions"],
+            "liveUrl": "/til",
+            "repoUrl": "https://github.com/rebussharma/personal-portfolio"
         }
     ]
 }

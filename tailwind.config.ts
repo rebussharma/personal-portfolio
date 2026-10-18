@@ -27,8 +27,8 @@ const config = {
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         primary: {
-          DEFAULT: "hsl(220 80% 20%)", // Deep Indigo Blue
-          foreground: "hsl(0 0% 100%)", // White text for contrast
+          DEFAULT: "hsl(var(--primary))", // Deep indigo in light mode, lighter blue in dark mode
+          foreground: "hsl(var(--primary-foreground))",
         },
         accent: {
           DEFAULT: "hsl(20 90% 60%)", // Vibrant Orange-Peach

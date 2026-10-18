@@ -2,10 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-  font-family: Arial, Helvetica, sans-serif;
-}
-
 @layer utilities {
   .text-balance {
     text-wrap: balance;
@@ -62,8 +58,8 @@ body {
     --popover: 222.2 84% 4.9%;
     --popover-foreground: 210 40% 98%;
 
-    --primary: 220 80% 20%; /* Deep Indigo Blue */
-    --primary-foreground: 0 0% 100%; /* White */
+    --primary: 213 94% 68%; /* Light blue: readable on dark backgrounds */
+    --primary-foreground: 222 47% 11%; /* Dark navy text on light-blue buttons */
 
     --accent: 20 90% 60%; /* Vibrant Orange-Peach */
     --accent-foreground: 0 0% 100%; /* White */
@@ -93,9 +89,6 @@ body {
 }
 
 @layer base {
-  html {
-    font-family: var(--font-roboto); /* Apply Roboto as default sans-serif */
-  }
   h1,
   h2,
   h3,
@@ -109,6 +102,18 @@ body {
   }
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+/* Keep anchored sections clear of the sticky header */
+section[id] {
+  scroll-margin-top: 4rem;
+}
+
+/* Smooth in-page anchor scrolling, only for users who haven't asked for reduced motion */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
   }
 }
 
