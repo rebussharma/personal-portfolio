@@ -3,6 +3,10 @@ import type { Metadata } from "next"
 import { Outfit, Roboto } from "next/font/google" // Import new fonts
 import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
+import { SiteHeader } from "@/components/site-header"
+import { SiteFooter } from "@/components/site-footer"
+import { Toaster } from "@/components/toaster"
+import { siteConfig } from "@/lib/site"
 
 const outfit = Outfit({
   subsets: ["latin"],
@@ -18,9 +22,28 @@ const roboto = Roboto({
 })
 
 export const metadata: Metadata = {
-  title: "Ribash Sharma",
+  metadataBase: new URL(siteConfig.url),
+  title: {
+    default: siteConfig.title,
+    template: `%s | ${siteConfig.name}`,
+  },
+  description: siteConfig.description,
   icons: "/icon/title.svg",
-  description: "Software Development Engineer Based in Austin, Texas"}
+  alternates: { canonical: "/" },
+  openGraph: {
+    type: "website",
+    url: "/",
+    siteName: siteConfig.name,
+    title: siteConfig.title,
+    description: siteConfig.description,
+    locale: "en_US",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: siteConfig.title,
+    description: siteConfig.description,
+  },
+}
 
 export default function RootLayout({
   children,
@@ -29,11 +52,18 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${roboto.variable} ${outfit.variable}`}>
-        {" "}
-        {/* Apply both font variables */}
+      <body className={`${roboto.variable} ${outfit.variable} font-sans antialiased flex min-h-[100dvh] flex-col`}>
+        <a
+          href="#main"
+          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded-md focus:bg-white focus:px-4 focus:py-2 focus:text-gray-900 focus:shadow-lg"
+        >
+          Skip to content
+        </a>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+          <SiteHeader />
           {children}
+          <SiteFooter />
+          <Toaster />
         </ThemeProvider>
       </body>
     </html>
