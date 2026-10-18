@@ -1,505 +1,415 @@
-"use client"
-
-import type React from "react"
-
 import Link from "next/link"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea"
-import { MonitorSmartphone, Github, Linkedin, ArrowUp } from "lucide-react"
 import Image from "next/image"
-import { SlideModeToggle } from "@/components/slide-mode-toggle"
-import { useState, useEffect, useRef } from "react" // Import useState and useEffect
-import EmailSender, {EmailSenderRef} from "@/components/EmailSender"
-import TechCard from "./techCard"
+import { Github, Linkedin, ExternalLink, Mail, FileText, MapPin, Briefcase, Layers, Cloud, BookOpen, ArrowRight } from "lucide-react"
+import { Button } from "@/components/ui/button"
+import { Badge } from "@/components/ui/badge"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { ContactForm } from "@/components/contact-form"
+import { LatestTil } from "@/components/latest-til"
+import { SectionHeading } from "@/components/section-heading"
+import { SkillChip } from "@/components/skill-chip"
 import data from './data.json'
-import { TechTools } from "@/lib/types"
+import { siteConfig } from "@/lib/site"
+import type { Experience, Project, TechTools } from "@/lib/types"
 
-export default function Component() {
-  const backend_items = data["Backend & Database"]
-  const frontend_items = data.Frontend
-  const misc_items = data["DevOps and Misc"]
+const skillGroups: { title: string; items: TechTools[] }[] = [
+  { title: "Frontend", items: data.Frontend },
+  { title: "Backend & Databases", items: data["Backend & Database"] },
+  { title: "Tools & DevOps", items: data["DevOps and Misc"] },
+]
 
-  const [name, setName] = useState("")
-  const [email, setEmail] = useState("")
-  const [subject, setSubject] = useState("")
-  const [message, setMessage] = useState("")
-  const [open, setOpen] = useState(false)
-  const emailSenderRef = useRef<EmailSenderRef>(null);
-  // State for validation
-  const [isEmailValid, setIsEmailValid] = useState(false)
-  const [isMessageValid, setIsMessageValid] = useState(false)
-  const [canSubmit, setCanSubmit] = useState(false)
-  const [emailSent, setEmailConfirmed] = useState(false)
+const projects: Project[] = data.Projects
+const experience: Experience[] = data.Experience
 
-  // Email validation regex (basic)
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+const quickFacts = [
+  { icon: MapPin, label: "Based in", value: siteConfig.location },
+  { icon: Briefcase, label: "Experience", value: "5+ years, professional" },
+  { icon: Layers, label: "Full stack", value: "Spring Boot · Node.js · React · Next.js" },
+  { icon: Cloud, label: "Infrastructure", value: "Docker · Kubernetes · Terraform" },
+]
 
-  // Effect to validate email and message whenever they change
-  useEffect(() => {
-    setIsEmailValid(emailRegex.test(email))
-    setIsMessageValid(message.trim().length > 0)
-  }, [email, message])
+const isExternal = (href: string) => href.startsWith("http")
 
-  // Effect to enable/disable submit button
-  useEffect(() => {
-    setCanSubmit(isEmailValid && isMessageValid)
-  }, [isEmailValid, isMessageValid])
+const personJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: siteConfig.name,
+  jobTitle: "Software Engineer",
+  url: siteConfig.url,
+  address: { "@type": "PostalAddress", addressLocality: "Austin", addressRegion: "TX", addressCountry: "US" },
+  sameAs: [siteConfig.github, siteConfig.linkedin],
+  knowsAbout: skillGroups.flatMap((group) => group.items.map((item) => item.name)),
+}
 
-  // Function to handle smooth scrolling
-  const scrollToSection = (id: string) => {
-    const element = document.getElementById(id)
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth" })
-    }
-  }
+const heroOutlineButton =
+  "h-11 border border-white/70 bg-transparent px-6 text-white hover:bg-white hover:text-gray-900 focus-visible:ring-white"
 
-  // Handle form submission (currently just logs, you'd add server action here)
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-   emailSenderRef.current?.sendEmail();
-  }
-
-  const clientDetails = {
-    nameResetter: setName,
-    emailResetter: setEmail,
-    subjectResetter: setSubject,
-    messageResetter:setMessage,
-    clientDetails: [name, email, subject, message],
-    setEmailSent: setEmailConfirmed,
-    contactForm: true
-  }
-  
-
+// Code-editor style card shown in the hero when no headshot is configured
+function ProfileCodeCard() {
   return (
-    <div className="flex flex-col min-h-[100dvh]">
-      <header className="flex flex-col border-b bg-white dark:bg-gray-900">
-        {/* First Row: Name, Social Icons, Dark Mode Toggle */}
-        <div className="px-4 lg:px-6 h-14 flex items-center justify-between">
-          <Link href="#" className="flex items-center justify-center gap-2 font-bold text-lg" prefetch={false}>
-            <MonitorSmartphone className="h-6 w-6 text-primary" /> {/* Apply primary color to icon */}
-            <span>Ribash Sharma</span>
-          </Link>
-          <div className="flex items-center gap-4">
-            <Link
-              href="https://github.com/rebussharma"
-              className="text-sm font-medium hover:underline underline-offset-4 flex items-center gap-1 text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-primary transition-colors"
-              prefetch={false}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <Github className="h-5 w-5" />
-              <span className="sr-only sm:not-sr-only">GitHub</span> {/* Show text on larger screens */}
-            </Link>
-            <Link
-              href="https://linkedin.com/in/rebus-sharma"
-              className="text-sm font-medium hover:underline underline-offset-4 flex items-center gap-1 text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-primary transition-colors"
-              prefetch={false}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <Linkedin className="h-5 w-5" />
-              <span className="sr-only sm:not-sr-only">LinkedIn</span> {/* Show text on larger screens */}
-            </Link>
-            <SlideModeToggle /> {/* Use the new SlideModeToggle */}
-          </div>
-        </div>
-        {/* Second Row: Main Navigation */}
-        <div className="w-full py-2 px-4 lg:px-6 flex justify-center border-t border-gray-200 dark:border-gray-800">
-          <nav className="flex gap-4 sm:gap-6">
-            <button
-              onClick={() => scrollToSection("about")}
-              className="text-sm font-medium hover:underline underline-offset-4 text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-primary transition-colors"
-            >
-              About
-            </button>
-            <button
-              onClick={() => scrollToSection("skills")}
-              className="text-sm font-medium hover:underline underline-offset-4 text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-primary transition-colors"
-            >
-              Skills
-            </button>
-            <button
-              onClick={() => scrollToSection("projects")}
-              className="text-sm font-medium hover:underline underline-offset-4 text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-primary transition-colors"
-            >
-              Projects
-            </button>
-            <Link
-              href="/til"
-              target="_blank"
-              className="text-sm font-medium hover:underline underline-offset-4 text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-primary transition-colors"
-              prefetch={false}
-            >
-              TIL
-            </Link>
-            <button
-              onClick={() => scrollToSection("contact")}
-              className="text-sm font-medium hover:underline underline-offset-4 text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-primary transition-colors"
-            >
-              Contact
-            </button>
-          <div className="relative inline-block">
+    <div
+      aria-hidden="true"
+      className="w-full max-w-md rounded-xl border border-white/10 bg-gray-950/70 shadow-2xl ring-1 ring-white/5 backdrop-blur"
+    >
+      <div className="flex items-center gap-2 border-b border-white/10 px-4 py-3">
+        <span className="h-3 w-3 rounded-full bg-red-400/80" />
+        <span className="h-3 w-3 rounded-full bg-yellow-400/80" />
+        <span className="h-3 w-3 rounded-full bg-green-400/80" />
+        <span className="ml-2 font-mono text-xs text-gray-400">ribash.ts</span>
+      </div>
+      <pre className="overflow-x-auto p-5 font-mono text-[13px] leading-6 text-gray-300">
+        <code>
+          <span className="text-purple-300">const</span> <span className="text-blue-300">ribash</span> = {"{"}
+          {"\n"}  role: <span className="text-green-300">&quot;Full-Stack Software Engineer&quot;</span>,
+          {"\n"}  location: <span className="text-green-300">&quot;Austin, TX&quot;</span>,
+          {"\n"}  experience: <span className="text-green-300">&quot;5+ years&quot;</span>,
+          {"\n"}  backend: [<span className="text-green-300">&quot;Spring Boot&quot;</span>, <span className="text-green-300">&quot;Node.js&quot;</span>, <span className="text-green-300">&quot;PostgreSQL&quot;</span>],
+          {"\n"}  frontend: [<span className="text-green-300">&quot;React&quot;</span>, <span className="text-green-300">&quot;Next.js&quot;</span>, <span className="text-green-300">&quot;TypeScript&quot;</span>],
+          {"\n"}  infra: [<span className="text-green-300">&quot;Docker&quot;</span>, <span className="text-green-300">&quot;K8s&quot;</span>, <span className="text-green-300">&quot;Terraform&quot;</span>],
+          {"\n"}{"}"}
+        </code>
+      </pre>
+    </div>
+  )
+}
 
-            <button
-                onClick={() => setOpen(!open)}
-                className="text-sm font-medium hover:underline underline-offset-4 text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-primary transition-colors"
-              >
-                Public
-            </button>
+function ProjectImage({ project }: { project: Project }) {
+  if (!project.image) {
+    // Branded placeholder for projects without a screenshot
+    return (
+      <div
+        aria-hidden="true"
+        className="flex aspect-[16/10] w-full flex-col items-center justify-center gap-2 rounded-md bg-gradient-to-br from-indigo-900 to-indigo-950 text-white"
+      >
+        <BookOpen className="h-10 w-10 text-accent" />
+        <span className="font-heading text-xl font-bold">{project.title}</span>
+      </div>
+    )
+  }
+  return (
+    <Image
+      src={project.image}
+      width={1200}
+      height={750}
+      sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
+      alt={project.imageAlt}
+      className="aspect-[16/10] w-full rounded-md border border-gray-200 object-cover object-top dark:border-gray-800"
+    />
+  )
+}
 
-            {open && (
-              <div className="absolute mt-2 w-40 rounded-md border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 shadow-lg z-50">
-                <a
-                  href="/docs/carfax"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="block px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-800"
-                >
-                  Carfax
-                </a>
+export default function Home() {
+  return (
+    <main id="main" tabIndex={-1} className="flex-1 focus:outline-none">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
+      />
 
-              </div>
-            )}
-            </div>
-          </nav>
-        </div>
-      </header>
-      <main className="flex-1">
-        <section
-          id="hero"
-          className="w-full py-12 md:py-24 lg:py-32 xl:py-48 bg-gradient-to-br from-primary to-indigo-950 dark:from-gray-900 dark:to-gray-950 text-white"
-        >
-          <div className="container px-4 md:px-6">
-            <div className="grid gap-6 lg:grid-cols-1 lg:gap-12">
-              <div className="flex flex-col justify-center space-y-4 text-center lg:text-left">
-                <div className="space-y-2">
-                  <h1 className="text-3xl font-heading font-bold tracking-tighter sm:text-5xl xl:text-6xl/none">
-                    Hi, I'm a Software Developer
-                  </h1>
-                  <p className="max-w-[600px] text-indigo-100 md:text-xl mx-auto lg:mx-0">
-                    Passionate about building small web applications to do BIG things!
-                  </p>
-                  <p style={{fontStyle:"italic", fontSize:".75rem"}}>Responsible use of AI: 
-                    The UI in this page is generate using <a href="https://v0.dev" target="_blank">v0.dev</a> by Vercel</p>
-                </div>
-                <div className="flex flex-col gap-2 min-[400px]:flex-row justify-center lg:justify-start">
-                  <Button
-                    onClick={() => scrollToSection("projects")}
-                    className="inline-flex h-10 items-center justify-center rounded-md bg-accent px-8 text-sm font-medium text-accent-foreground shadow transition-colors hover:bg-accent/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent disabled:pointer-events-none disabled:opacity-50"
-                  >
-                    View Projects
-                  </Button>
-                  <Button
-                    onClick={() => scrollToSection("contact")}
-                    className="inline-flex h-10 items-center justify-center rounded-md border border-white bg-transparent px-8 text-sm font-medium shadow-sm transition-colors hover:bg-white hover:text-primary focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-white disabled:pointer-events-none disabled:opacity-50"
-                  >
-                    Contact Me
-                  </Button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section id="about" className="w-full py-12 md:py-24 lg:py-32 bg-white dark:bg-gray-950">
-          <div className="container px-4 md:px-6">
-            <div className="flex flex-col items-center justify-center space-y-4 text-center">
-              <div className="space-y-2">
-                <h2 className="text-3xl font-heading font-bold tracking-tighter sm:text-5xl">About Me</h2>
-                <p className="max-w-[900px] text-gray-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed dark:text-gray-400">
-                  I have over 5 years of professional experience in building, deploying and maintaing full-stack application.
-                  I love transforming ideas into scalale application; from paper to the internet. My journey in tech began
-                  when I clicked few buttons on a browser. The informations those clicks rendered was like magic. Ever since, 
-                  I have been learing everyday to make the same magic happen. I thrive in
-                  collaborative environments and am always eager to learn new technologies and best practices.
-                </p>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section id="skills" className="w-full py-12 md:py-24 lg:py-32 bg-gray-100 dark:bg-gray-900">
-          <div className="container px-4 md:px-6">
-            <div className="flex flex-col items-center justify-center space-y-4 text-center">
-              <div className="space-y-2">
-                <h2 className="text-3xl font-heading font-bold tracking-tighter sm:text-5xl">My Skills</h2>
-                <p className="max-w-[900px] text-gray-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed dark:text-gray-400">
-                  Some tools and techs I have worked with.
-                </p>
-              </div>
-              <div className="w-full max-w-4xl mx-auto grid gap-8 py-8">
-                {/* Frontend Skills */}
-                <div className="text-left">
-                  <h3 className="text-2xl font-heading font-bold mb-4 text-gray-800 dark:text-gray-200">Frontend</h3>
-                  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6">
-                   {
-                    frontend_items.map((item: TechTools) => {
-                      return(
-                        <TechCard key={item.name} src={item.src} alt={item.alt} tech_name={item.name} />
-                      )
-                    })
-                   }
-                  </div>
-                </div>
-
-                {/* Backend Skills */}
-                <div className="text-left">
-                  <h3 className="text-2xl font-heading font-bold mb-4 text-gray-800 dark:text-gray-200">
-                    Backend & Databases
-                  </h3>
-                  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6">
-                    {
-                      backend_items.map((item: TechTools) => {
-                        return(
-                          <TechCard key={item.name} src={item.src} alt={item.alt} tech_name={item.name} />
-                        )
-                      })
-                    }
-                  </div>
-                </div>
-
-                {/* Tools & DevOps */}
-                <div className="text-left">
-                  <h3 className="text-2xl font-heading font-bold mb-4 text-gray-800 dark:text-gray-200">
-                    Tools & DevOps
-                  </h3>
-                  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6">
-                   {
-                      misc_items.map((item: TechTools) => {
-                        return(
-                          <TechCard key={item.name} src={item.src} alt={item.alt} tech_name={item.name} />
-                        )
-                      })
-                    }
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section id="projects" className="w-full py-12 md:py-24 lg:py-32 bg-white dark:bg-gray-950">
-          <div className="container px-4 md:px-6">
-            <div className="flex flex-col items-center justify-center space-y-4 text-center">
-              <div className="space-y-2">
-                <h2 className="text-3xl font-heading font-bold tracking-tighter sm:text-5xl">My Projects</h2>
-                <p className="max-w-[900px] text-gray-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed dark:text-gray-400">
-                  Showcasing some of my recent work.
-                </p>
-              </div>
-              <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 py-8">
-                <Card className="border border-gray-200 dark:border-gray-700 custom-shadow transition-all hover:custom-shadow-lg hover:scale-[1.02]">
-                  <CardHeader>
-                    <Image
-                      src="/images/sammy_salon.jpeg?height=200&width=300"
-                      width="300"
-                      height="200"
-                      alt="Project 1"
-                      className="rounded-md object-cover w-full h-48"
-                    />
-                    <CardTitle className="mt-4">Beauty Salon Landing Page</CardTitle>
-                    <CardDescription>
-                      A landing page for a beauty salon with integrated reviews and email system built on ReactJs and powered by EmailJs
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <Link
-                      href="https://sammysbrow.com"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-sm font-medium text-primary hover:underline underline-offset-4"
-                      prefetch={false}
-                    >
-                      View Project &rarr;
-                    </Link>
-                  </CardContent>
-                </Card>
-                <Card className="border border-gray-200 dark:border-gray-700 custom-shadow transition-all hover:custom-shadow-lg hover:scale-[1.02]">
-                  <CardHeader>
-                    <Image
-                      src="/images/salon_appt.jpeg?height=200&width=300"
-                      width="300"
-                      height="200"
-                      alt="Project 2"
-                      className="rounded-md object-cover w-full h-48"
-                    />
-                    <CardTitle className="mt-4">Appointment Booking App</CardTitle>
-                    <CardDescription>
-                      A full stack application to book service appointment for a beauty salon. Built uisng ReactJs for frontend, Spring Boot as backend and Postgres for database.
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <Link
-                      href="https://book.sammysbrow.com"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-sm font-medium text-primary hover:underline underline-offset-4"
-                      prefetch={false}
-                    >
-                      View Project &rarr;
-                    </Link>
-                  </CardContent>
-                </Card>
-                <Card className="border border-gray-200 dark:border-gray-700 custom-shadow transition-all hover:custom-shadow-lg hover:scale-[1.02]">
-                  <CardHeader>
-                    <Image
-                      src="/images/til.jpeg?height=200&width=300"
-                      width="300"
-                      height="200"
-                      alt="Project 3"
-                      className="rounded-md object-cover w-full h-48"
-                    />
-                    <CardTitle className="mt-4">Today I Learnt Feature </CardTitle>
-                    <CardDescription>
-                      A small blog linked within this page that I use to write about things I learn every now and then.
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <Link
-                      href="/til"
-                      target="_blank"
-                      className="text-sm font-medium text-primary hover:underline underline-offset-4"
-                      prefetch={false}
-                    >
-                      View Project &rarr;
-                    </Link>
-                  </CardContent>
-                </Card>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section id="til" className="w-full py-12 md:py-24 lg:py-32 bg-gray-100 dark:bg-gray-900">
-          <div className="container px-4 md:px-6">
-            <div className="flex flex-col items-center justify-center space-y-4 text-center">
-              <div className="space-y-2">
-                <h2 className="text-3xl font-heading font-bold tracking-tighter sm:text-5xl">Today I Learned</h2>
-                <p className="max-w-[900px] text-gray-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed dark:text-gray-400">
-                  A collection of small things I learn every day.
-                </p>
-              </div>
-              <Button asChild className="mt-6 bg-primary text-primary-foreground hover:bg-primary/90">
-                <Link href="/til" target="_blank" prefetch={false}>
-                  Go to TIL Page &rarr;
+      {/* Hero */}
+      <section
+        id="hero"
+        className="relative w-full overflow-hidden bg-gradient-to-br from-primary to-indigo-950 py-16 text-white md:py-24 lg:py-28 dark:from-gray-900 dark:to-gray-950"
+      >
+        <div className="container grid items-center gap-12 px-4 md:px-6 lg:grid-cols-[1.15fr_1fr]">
+          <div className="space-y-6">
+            <p className="text-sm font-semibold uppercase tracking-widest text-accent">
+              Full-Stack Software Engineer · {siteConfig.location}
+            </p>
+            <h1 className="font-heading font-bold tracking-tight">
+              <span className="block text-xl font-medium text-indigo-200 md:text-2xl">Hi, I&apos;m</span>
+              <span className="block text-5xl sm:text-6xl xl:text-7xl">{siteConfig.name}</span>
+            </h1>
+            <p className="max-w-xl text-lg text-indigo-100 md:text-xl">
+              I build reliable, end-to-end web applications, from Spring Boot and Node.js APIs to React and Next.js
+              front ends, and the cloud infrastructure that runs them.
+            </p>
+            <p className="max-w-xl text-indigo-200">
+              5+ years of professional experience building, deploying and maintaining production applications.
+            </p>
+            <div className="flex flex-col gap-3 min-[400px]:flex-row min-[400px]:flex-wrap min-[400px]:items-center">
+              <Button asChild className="h-11 bg-accent px-6 text-gray-950 shadow hover:bg-accent/90 focus-visible:ring-accent">
+                <Link href="#projects">
+                  View Projects <ArrowRight aria-hidden="true" />
                 </Link>
               </Button>
+              <Button asChild className={heroOutlineButton}>
+                <Link href="#contact">Contact Me</Link>
+              </Button>
+              {siteConfig.resumeUrl && (
+                <Button asChild className={heroOutlineButton}>
+                  <a href={siteConfig.resumeUrl} target="_blank" rel="noopener noreferrer">
+                    <FileText aria-hidden="true" /> Résumé
+                  </a>
+                </Button>
+              )}
+              <div className="flex gap-2">
+                <a
+                  href={siteConfig.github}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="GitHub"
+                  className="inline-flex h-11 w-11 items-center justify-center rounded-md text-indigo-100 hover:bg-white/10 hover:text-white"
+                >
+                  <Github className="h-5 w-5" aria-hidden="true" />
+                </a>
+                <a
+                  href={siteConfig.linkedin}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="LinkedIn"
+                  className="inline-flex h-11 w-11 items-center justify-center rounded-md text-indigo-100 hover:bg-white/10 hover:text-white"
+                >
+                  <Linkedin className="h-5 w-5" aria-hidden="true" />
+                </a>
+              </div>
             </div>
           </div>
-        </section>
+          <div className="hidden justify-center md:flex lg:justify-end">
+            {siteConfig.photo ? (
+              <Image
+                src={siteConfig.photo}
+                width={420}
+                height={420}
+                priority
+                alt={`Portrait of ${siteConfig.name}`}
+                className="aspect-square w-full max-w-sm rounded-2xl object-cover shadow-2xl ring-1 ring-white/10"
+              />
+            ) : (
+              <ProfileCodeCard />
+            )}
+          </div>
+        </div>
+      </section>
 
-        <section id="contact" className="w-full py-12 md:py-24 lg:py-32 bg-white dark:bg-gray-950">
-          <div className="container px-4 md:px-6">
-            <div className="flex flex-col items-center justify-center space-y-4 text-center">
-              <div className="space-y-2">
-                <h2 className="text-3xl font-heading font-bold tracking-tighter sm:text-5xl">Get in Touch</h2>
-                <p className="max-w-[900px] text-gray-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed dark:text-gray-400">
-                  Have a project in mind or just want to say hello? Feel free to reach out!
-                </p>
-              </div>
-              <Card className="w-full max-w-md border border-gray-200 dark:border-gray-700 custom-shadow">
-                <CardHeader>
-                  <CardTitle>Contact Me</CardTitle>
-                  <CardDescription>
-                    Fill out the form below and I'll get back to you as soon as possible.
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="grid gap-4">
-                  <form onSubmit={handleSubmit}>
-                    <div className="grid gap-2">
-                      <Input
-                        id="name"
-                        placeholder="Your Name"
-                        type="text"
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
-                      />
+      {/* About */}
+      <section id="about" aria-labelledby="about-heading" className="w-full bg-white py-16 md:py-24 dark:bg-gray-950">
+        <div className="container grid gap-12 px-4 md:px-6 lg:grid-cols-[1.4fr_1fr] lg:items-start">
+          <div className="space-y-6">
+            <SectionHeading id="about-heading" eyebrow="About" title="A bit about me" />
+            <div className="max-w-2xl space-y-4 text-gray-700 md:text-lg/relaxed dark:text-gray-300">
+              <p>
+                I&apos;m a full-stack software engineer based in {siteConfig.location} with over five years of
+                professional experience building, deploying and maintaining production applications. I work across the
+                stack, from Spring Boot and Node.js services backed by PostgreSQL to React and Next.js front ends, and
+                I&apos;m comfortable with the Docker, Kubernetes and Terraform tooling that ships them.
+              </p>
+              <p>
+                My journey in tech began when I clicked a few buttons in a browser and the information that appeared
+                felt like magic. I&apos;ve been learning how to make that magic happen ever since. I thrive in
+                collaborative teams and am always eager to pick up new technologies and best practices.
+              </p>
+            </div>
+          </div>
+          <Card className="border border-gray-200 bg-gray-50 dark:border-gray-800 dark:bg-gray-900">
+            <CardContent className="p-6">
+              <dl className="grid gap-5">
+                {quickFacts.map(({ icon: Icon, label, value }) => (
+                  <div key={label} className="flex gap-4">
+                    <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-white text-primary shadow-sm dark:bg-gray-800">
+                      <Icon className="h-5 w-5" aria-hidden="true" />
+                    </span>
+                    <div>
+                      <dt className="text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400">{label}</dt>
+                      <dd className="font-medium text-gray-900 dark:text-gray-100">{value}</dd>
                     </div>
-                    <div className="grid gap-2 mt-4">
-                      <Input
-                        id="email"
-                        placeholder="Your Email"
-                        type="email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        className={!isEmailValid && email.length > 0 ? "border-red-500" : ""}
-                      />
-                      {!isEmailValid && email.length > 0 && (
-                        <p className="text-red-500 text-sm">Please enter a valid email address.</p>
-                      )}
-                    </div>
-                    <div className="grid gap-2 mt-4">
-                      <Input
-                        id="subject"
-                        placeholder="Subject"
-                        type="text"
-                        value={subject}
-                        onChange={(e) => setSubject(e.target.value)}
-                      />
-                    </div>
-                    <div className="grid gap-2 mt-4">
-                      <Textarea
-                        className={`min-h-[100px] ${!isMessageValid && message.length > 0 ? "border-red-500" : ""}`}
-                        id="message"
-                        placeholder="Your Message"
-                        value={message}
-                        onChange={(e) => setMessage(e.target.value)}
-                      />
-                      {!isMessageValid && message.length > 0 && (
-                        <p className="text-red-500 text-sm">Message cannot be empty.</p>
-                      )}
-                    </div>
-                    <Button
-                      type="submit"
-                      className="w-full bg-primary text-primary-foreground hover:bg-primary/90 mt-6 active:scale-105"
-                      disabled={!canSubmit}
-                    >
-                      Send Message
-                    </Button>
-                    <EmailSender ref={emailSenderRef} {...clientDetails} />
-                  </form> 
+                  </div>
+                ))}
+              </dl>
+            </CardContent>
+          </Card>
+        </div>
+      </section>
+
+      {/* Skills */}
+      <section id="skills" aria-labelledby="skills-heading" className="w-full bg-gray-50 py-16 md:py-24 dark:bg-gray-900/40">
+        <div className="container space-y-10 px-4 md:px-6">
+          <SectionHeading
+            id="skills-heading"
+            eyebrow="Skills"
+            title="Tools I build with"
+            description="The languages, frameworks and infrastructure I use most."
+          />
+          <div className="grid gap-6 md:grid-cols-3">
+            {skillGroups.map((group) => (
+              <Card key={group.title} className="border border-gray-200 dark:border-gray-800">
+                <CardContent className="space-y-4 p-6">
+                  <h3 className="font-heading text-lg font-bold">{group.title}</h3>
+                  <ul className="flex flex-wrap gap-2">
+                    {group.items.map((item) => (
+                      <SkillChip key={item.name} src={item.src} name={item.name} />
+                    ))}
+                  </ul>
                 </CardContent>
               </Card>
-            </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Experience (shown once data.json has entries) */}
+      {experience.length > 0 && (
+        <section id="experience" aria-labelledby="experience-heading" className="w-full bg-white py-16 md:py-24 dark:bg-gray-950">
+          <div className="container space-y-10 px-4 md:px-6">
+            <SectionHeading
+              id="experience-heading"
+              eyebrow="Experience"
+              title="Where I've worked"
+              description="Roles, teams and what I delivered."
+            />
+            <ol className="max-w-3xl border-l border-gray-200 dark:border-gray-700">
+              {experience.map((job) => (
+                <li key={`${job.company}-${job.period}`} className="relative mb-10 ml-6 last:mb-0">
+                  <span
+                    aria-hidden="true"
+                    className="absolute -left-[31px] top-1.5 h-3 w-3 rounded-full border-2 border-white bg-accent dark:border-gray-950"
+                  />
+                  <h3 className="text-xl font-heading font-bold">
+                    {job.role} <span className="text-gray-500 dark:text-gray-400">· {job.company}</span>
+                  </h3>
+                  <p className="text-sm text-gray-500 dark:text-gray-400">
+                    {job.period}
+                    {job.location && ` · ${job.location}`}
+                  </p>
+                  <ul className="mt-3 list-disc space-y-1 pl-5 text-gray-700 dark:text-gray-300">
+                    {job.highlights.map((highlight) => (
+                      <li key={highlight}>{highlight}</li>
+                    ))}
+                  </ul>
+                </li>
+              ))}
+            </ol>
           </div>
         </section>
-      </main>
-      <footer className="flex flex-col gap-2 sm:flex-row py-6 w-full shrink-0 items-center px-4 md:px-6 border-t">
-        <p className="text-xs text-gray-500 dark:text-gray-400">
-          &copy; {new Date().getFullYear()} Ribash Sharma. All rights reserved.
-        </p>
-        <nav className="sm:ml-auto flex gap-4 sm:gap-6">
-          <Link
-            href="https://github.com/rebussharma"
-            className="text-xs hover:underline underline-offset-4 flex items-center gap-1 text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-primary transition-colors"
-            prefetch={false}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Github className="h-4 w-4" /> GitHub
-          </Link>
-          <Link
-            href="https://linkedin.com/in/rebus-sharma"
-            className="text-xs hover:underline underline-offset-4 flex items-center gap-1 text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-primary transition-colors"
-            prefetch={false}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Linkedin className="h-4 w-4" /> LinkedIn
-          </Link>
-          <Button
-            variant="outline"
-            size="icon"
-            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-            className="h-10 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
-            aria-label="Go to top"
-          >
-            <ArrowUp className="h-4 w-4" />
-          </Button>
-        </nav>
-      </footer>
-    </div>
+      )}
+
+      {/* Projects */}
+      <section id="projects" aria-labelledby="projects-heading" className="w-full border-t bg-white py-16 md:py-24 dark:bg-gray-950">
+        <div className="container space-y-10 px-4 md:px-6">
+          <SectionHeading
+            id="projects-heading"
+            eyebrow="Projects"
+            title="Selected work"
+            description="Things I've designed, built and shipped."
+          />
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {projects.map((project, index) => {
+              // Center an odd last card on two-column (tablet) layouts instead of leaving it orphaned on the left
+              const isOrphan = projects.length % 2 === 1 && index === projects.length - 1
+              return (
+                <Card
+                  key={project.title}
+                  className={`group flex flex-col border border-gray-200 dark:border-gray-800 custom-shadow motion-safe:transition-all hover:custom-shadow-lg motion-safe:hover:-translate-y-1 ${
+                    isOrphan ? "md:col-span-2 md:mx-auto md:w-[calc(50%-0.75rem)] lg:col-span-1 lg:w-auto" : ""
+                  }`}
+                >
+                  <CardHeader className="space-y-4">
+                    <ProjectImage project={project} />
+                    <CardTitle>
+                      <h3 className="font-heading text-xl">{project.title}</h3>
+                    </CardTitle>
+                    <CardDescription className="text-base">{project.description}</CardDescription>
+                    <ul className="flex flex-wrap gap-2" aria-label="Technologies used">
+                      {project.tags.map((tag) => (
+                        <li key={tag}>
+                          <Badge variant="secondary">{tag}</Badge>
+                        </li>
+                      ))}
+                    </ul>
+                  </CardHeader>
+                  <CardContent className="mt-auto flex gap-6">
+                    <Link
+                      href={project.liveUrl}
+                      {...(isExternal(project.liveUrl) ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+                      className="inline-flex items-center gap-1 min-h-11 text-sm font-medium text-primary hover:underline underline-offset-4"
+                      prefetch={false}
+                    >
+                      <ExternalLink className="h-4 w-4" aria-hidden="true" />
+                      {isExternal(project.liveUrl) ? "Live Site" : "View Project"}
+                      <span className="sr-only">: {project.title}</span>
+                    </Link>
+                    {project.repoUrl && (
+                      <Link
+                        href={project.repoUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1 min-h-11 text-sm font-medium text-primary hover:underline underline-offset-4"
+                        prefetch={false}
+                      >
+                        <Github className="h-4 w-4" aria-hidden="true" />
+                        Code
+                        <span className="sr-only">: {project.title}</span>
+                      </Link>
+                    )}
+                  </CardContent>
+                </Card>
+              )
+            })}
+          </div>
+        </div>
+      </section>
+
+      <LatestTil />
+
+      {/* Contact */}
+      <section id="contact" aria-labelledby="contact-heading" className="w-full border-t bg-white py-16 md:py-24 dark:bg-gray-950">
+        <div className="container grid gap-12 px-4 md:px-6 lg:grid-cols-2 lg:items-start">
+          <div className="space-y-6">
+            <SectionHeading
+              id="contact-heading"
+              eyebrow="Contact"
+              title="Let's talk"
+              description="Whether it's a role, a project or just to say hello, feel free to reach out. I'll get back to you as soon as possible."
+            />
+            <ul className="space-y-2">
+              {siteConfig.email && (
+                <li>
+                  <a
+                    href={`mailto:${siteConfig.email}`}
+                    className="inline-flex items-center gap-2 min-h-11 font-medium text-primary hover:underline underline-offset-4"
+                  >
+                    <Mail className="h-5 w-5" aria-hidden="true" />
+                    {siteConfig.email}
+                  </a>
+                </li>
+              )}
+              <li>
+                <a
+                  href={siteConfig.linkedin}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 min-h-11 font-medium text-primary hover:underline underline-offset-4"
+                >
+                  <Linkedin className="h-5 w-5" aria-hidden="true" />
+                  Connect on LinkedIn
+                </a>
+              </li>
+              <li>
+                <a
+                  href={siteConfig.github}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 min-h-11 font-medium text-primary hover:underline underline-offset-4"
+                >
+                  <Github className="h-5 w-5" aria-hidden="true" />
+                  See my code on GitHub
+                </a>
+              </li>
+            </ul>
+          </div>
+          <Card className="w-full border border-gray-200 dark:border-gray-800 custom-shadow">
+            <CardHeader>
+              <CardTitle>
+                <h3 className="font-heading text-xl">Send a message</h3>
+              </CardTitle>
+              <CardDescription>Fill out the form and it lands straight in my inbox.</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <ContactForm />
+            </CardContent>
+          </Card>
+        </div>
+      </section>
+    </main>
   )
 }
